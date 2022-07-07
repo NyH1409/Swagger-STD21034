@@ -1,0 +1,96 @@
+openapi: 3.0.1
+info:
+  title: STD21034
+  description: Hello World !
+  version: 1.0.0
+servers:
+- url: https://STD21034.com
+tags :
+  - name : Students
+  - name : Course
+paths:
+  /students :
+    get:
+      tags:
+      - Students
+      summary: create new student
+      description: Get all students with details
+      operationId: findStudentById
+      parameters:
+      - name: page
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: List of students
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        400:
+          description: Bad Request
+          content: {}
+          
+  /students/:
+    post:
+      tags:
+      - Students
+      summary: get all students
+      description: create new student from a array
+      operationId: addStudent
+      requestBody:
+        description: Students to be created
+        content:
+          application/json:
+            schema:
+              type : array
+              items :
+                $ref: '#/components/schemas/CreateStudent'
+        required: true
+      responses:
+        200:
+          description: List of students
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        400:
+          description: Bad Request
+          content: {}
+     
+  
+ 
+components:
+  schemas:
+    CreateStudent:
+      type: object
+      properties:
+        name :
+          type: string
+        
+    Student:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        
+      xml:
+        name: Student
