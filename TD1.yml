@@ -64,7 +64,7 @@ paths:
       description: Update student
       operationId: putStudent
       requestBody:
-        description: Students to be created
+        description: Students to be updated
         content:
           application/json:
             schema:
@@ -87,7 +87,7 @@ paths:
     patch:
       tags:
       - Students
-      summary: Update existing student (partial)
+      summary: Update an existing student (partial)
       description: Update student
       operationId: patchStudent
       requestBody:
@@ -95,9 +95,36 @@ paths:
         content:
           application/json:
             schema:
-              type : array
-              items :
-                $ref: '#/components/schemas/Student'
+              $ref: '#/components/schemas/Student'
+            examples:
+              changeName:
+                summary: Change name
+                description: How to change name and what it does
+                value:
+                  id: 1
+                  name: "new name"
+              changeAddress:
+                summary: Change address
+                description: How to change address and what it does
+                value:
+                  id: 1
+                  address: "new address"
+              addPhonenumber:
+                summary: Add phone number
+                description: How to change phone number and what it does
+                value:
+                  id : 1
+                  phoneNumber:
+                    number : "new phone number"
+                    country_code : "+261"
+              changeNameAndAddress:
+                summary: Change name and address
+                description: How to change name and address and what it does
+                value:
+                  id: 1
+                  name : "new name"
+                  address : "new address"
+                  
         required: true
       responses:
         200:
@@ -315,6 +342,10 @@ components:
           type: string
           format: date
           example: "15-07-2022"
+        phoneNumber:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
         
     Student:
       type: object
@@ -352,5 +383,15 @@ components:
           format: int64
           example: 1
       allOf:
-          - $ref : '#/components/schemas/CreateCourse' 
+          - $ref : '#/components/schemas/CreateCourse'
+
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+          example: "O32 40 636 16"
+        country_code:
+          type: string
+          example: "+261" 
  
