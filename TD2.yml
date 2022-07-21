@@ -1,0 +1,275 @@
+openapi: '3.0.2'
+info:
+  title: CINEMA STD21034
+  description: "Global description of my API"
+  version: '1.0'
+servers:
+  - url: https://cinema_STD21034.com
+tags:
+  - name: Films
+paths:
+  /films:
+    get:
+      tags:
+        - Films
+      operationId: getFilms
+      summary: "Get all films"
+      description: "Get all films with details"
+      responses:
+        '200':
+          description: List of films
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Screening'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - Films
+      operationId: addFilms
+      summary: "Add new films"
+      description: "Add new films with all properties"
+      requestBody:
+        description: "Films to be created"
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateFilms'
+      responses:
+        '200':
+          description: Films created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Films'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          
+    put:
+      tags:
+        - Films
+      operationId: putFilms
+      summary: "Update some existing films"
+      description: "Update all informations about some films"
+      requestBody:
+        description: "Film to be updated"
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Films'
+      responses:
+        '200':
+          description: Ressource  updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Films'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Films
+      operationId: patchFilms
+      summary: "Update some existing films (partially)"
+      description: "Update one or more specifics informations about some films"
+      requestBody:
+        description: Films to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Films'
+            examples:
+              changeFilmsTitle:
+                summary: Change title
+                description: How to change title and what it does
+                value:
+                  id: 1
+                  title : new title
+              changeFilmsDuration:
+                summary: Change duration
+                description: How to change duration and what it does
+                value:
+                  id: 1
+                  duration: new duration
+              changeFilmsSummary:
+                summary: Change summary
+                description: How to change summary and what it does
+                value:
+                  id: 1
+                  summary: Lorem ip sum dolor
+              changeFilmsDirector:
+                summary: Change Director
+                description: How to change summary and what it does
+                value:
+                  id: 1
+                  summary: Will Smith
+              changeFilmsPostingDate:
+                summary: Change posting_date
+                description: How to change posting date and what it does
+                value:
+                  id: 1
+                  summary: new date
+
+
+      responses:
+        '200':
+          description: Ressource updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Films'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /films/{id}:
+    get:
+      tags:
+        - Films
+      operationId: getFilmById
+      summary: "Get film by identifier"
+      description: "Get film by identifier with details"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          explode: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ressource updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Screening'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'     
+    delete:
+      tags:
+        - Films
+      operationId: deleteFilms
+      summary: "Delete films by identifier"
+      description: "Films to be deleted"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          explode: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ressource deleted
+          content: {}
+                
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              
+
+
+
+components:
+  schemas:
+    Room :
+      type: object
+      properties:
+        numero:
+          type: integer
+          format: int64
+          example: 1
+        capacity:
+          type: integer
+          format: int64
+          example: 200
+    Screening:
+      type: object
+      properties:
+        film:
+          type: array
+          items:
+            $ref:  "#/components/schemas/Films"
+        room:
+          type: array
+          items:
+            $ref:  "#/components/schemas/Room"
+        broadcast_time:
+          type: string
+          format: time
+          example: 03:00 PM
+    CreateFilms:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Aquaman
+        duration:
+          type: string
+          format: time
+          example: 01:48:50
+        summary:
+          type: string
+          example: Lorem ipsum dolor
+        Director:
+          type: string
+          example: Jason Momoa
+        posting_date:
+          type: string
+          format: date
+          example: 20-07-2022
+    Films:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+      allOf:
+        - $ref: "#/components/schemas/CreateFilms"
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int64
+          example: 400
+        message:
+          type: string
+          example: Error_400_Bad_Request
