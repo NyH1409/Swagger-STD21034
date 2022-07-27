@@ -1,1 +1,2 @@
 - TD1-link : https://petstore.swagger.io/?url=https://raw.githubusercontent.com/NyH1409/Swagger-STD21034/main/TD1.yml
+- TD2-link : https://petstore.swagger.io/?url=https://raw.githubusercontent.com/NyH1409/Swagger-STD21034/main/TD2.yml
