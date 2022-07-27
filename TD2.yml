@@ -228,7 +228,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CreateCategories'
+                  $ref: '#/components/schemas/FilmsByCategories'
         '400':
           description: Bad Request
           content:
